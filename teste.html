@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Drop-downs Interdependentes</title>
+    <style>
+        /* Adicione estilos aqui, se necessário */
+        .seta-cima {
+            transform: rotate(180deg);
+            transition: transform 0.3s ease-in-out;
+        }
+    </style>
+</head>
+
+<body>
+
+    <label for="categoria">Escolha a Categoria: <span class="seta-categoria">&#9660;</span></label>
+    <select id="categoria" onchange="carregarSubcategorias()">
+        <option value="selecione">Selecione...</option>
+        <option value="software">Software</option>
+        <option value="hardware">Hardware</option>
+    </select>
+
+    <br>
+
+    <label for="subcategoria">Escolha a Subcategoria: <span class="seta-subcategoria">&#9660;</span></label>
+    <select id="subcategoria" onchange="carregarOpcoes()">
+        <!-- As subcategorias serão preenchidas dinamicamente pelo JavaScript -->
+    </select>
+
+    <br>
+
+    <label for="opcoes">Opções Disponíveis: <span class="seta-opcoes">&#9660;</span></label>
+    <select id="opcoes">
+        <!-- As opções serão preenchidas dinamicamente pelo JavaScript -->
+    </select>
+
+    <script>
+        function carregarSubcategorias() {
+            var categoria = document.getElementById("categoria");
+            var subcategoria = document.getElementById("subcategoria");
+            var opcoes = document.getElementById("opcoes");
+
+            // Limpa as opções existentes
+            subcategoria.innerHTML = "";
+            opcoes.innerHTML = "";
+
+            // Obtém a categoria selecionada
+            var categoriaSelecionada = categoria.value;
+
+            // Adiciona subcategorias com base na categoria
+            if (categoriaSelecionada === "software") {
+                adicionarOpcao(subcategoria, "sub1", "Subcategoria 1");
+                adicionarOpcao(subcategoria, "sub2", "Subcategoria 2");
+            } else if (categoriaSelecionada === "hardware") {
+                adicionarOpcao(subcategoria, "sub3", "Subcategoria 3");
+                adicionarOpcao(subcategoria, "sub4", "Subcategoria 4");
+            }
+
+            // Atualiza a classe da seta da categoria
+            atualizarSeta("seta-categoria", subcategoria);
+        }
+
+        function carregarOpcoes() {
+            var subcategoria = document.getElementById("subcategoria");
+            var opcoes = document.getElementById("opcoes");
+
+            // Limpa as opções existentes
+            opcoes.innerHTML = "";
+
+            // Obtém a subcategoria selecionada
+            var subcategoriaSelecionada = subcategoria.value;
+
+            // Adiciona opções com base na subcategoria
+            if (subcategoriaSelecionada === "sub1") {
+                adicionarOpcao(opcoes, "opcao1", "Opção 1.1");
+                adicionarOpcao(opcoes, "opcao2", "Opção 1.2");
+            } else if (subcategoriaSelecionada === "sub2") {
+                adicionarOpcao(opcoes, "opcao3", "Opção 2.1");
+                adicionarOpcao(opcoes, "opcao4", "Opção 2.2");
+            } else if (subcategoriaSelecionada === "sub3") {
+                adicionarOpcao(opcoes, "opcao5", "Opção 3.1");
+                adicionarOpcao(opcoes, "opcao6", "Opção 3.2");
+            } else if (subcategoriaSelecionada === "sub4") {
+                adicionarOpcao(opcoes, "opcao7", "Opção 4.1");
+                adicionarOpcao(opcoes, "opcao8", "Opção 4.2");
+            }
+
+            // Atualiza a classe da seta da subcategoria
+            atualizarSeta("seta-subcategoria", opcoes);
+        }
+
+        function adicionarOpcao(selectElement, valor, texto) {
+            var opcao = document.createElement("option");
+            opcao.value = valor;
+            opcao.text = texto;
+            selectElement.add(opcao);
+        }
+
+        function atualizarSeta(classeSeta, dropdown) {
+            var seta = document.querySelector("." + classeSeta);
+
+            // Adiciona ou remove a classe "seta-cima" com base no estado do dropdown
+            if (dropdown.options.length > 0) {
+                seta.classList.remove("seta-cima");
+            } else {
+                seta.classList.add("seta-cima");
+            }
+        }
+    </script>
+
+</body>
+
+</html>
